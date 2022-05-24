@@ -20,14 +20,28 @@ namespace MarketManagementApiV2.Controllers
             _context = context;
         }
 
+
+        // GET: api/SalesByProductAndReciep
+        [Route("api/SalesByProductAndReciep")]
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Sale>>> GetSalesByProductAndReciep()
+        {
+           
+            if (_context.Sales == null)
+            {
+                return NotFound();
+            }
+            return await _context.Sales.Include(p =>  p.ProductId) .ToListAsync() ;
+        }
+
         // GET: api/Sales
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Sale>>> GetSales()
         {
-          if (_context.Sales == null)
-          {
-              return NotFound();
-          }
+            if (_context.Sales == null)
+            {
+                return NotFound();
+            }
             return await _context.Sales.ToListAsync();
         }
 

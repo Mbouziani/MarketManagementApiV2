@@ -28,6 +28,11 @@ namespace MarketManagementApiV2.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+            modelBuilder.Entity<Sale>().HasOne<Product>(p => p.Product).WithMany();
+            modelBuilder.Entity<Sale>().HasOne<Reciep>(p => p.Reciep).WithMany();
+            modelBuilder.Entity<Product>().HasMany<Sale>(p => p.Sales).WithOne();
+            modelBuilder.Entity<Reciep>().HasMany<Sale>(p => p.Sales).WithOne();
             modelBuilder.Entity<Product>(entity =>
             {
                 entity.ToTable("product");

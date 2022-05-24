@@ -12,7 +12,20 @@ builder.Services.AddDbContext<MarketManagementDBContext>(
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddCors(options => options.AddPolicy("ApiCorsPolicy", builder =>
+ {
+     builder.WithOrigins("https://aljazeramax.com").AllowAnyMethod().AllowAnyHeader();
+ }));
+
+builder.Services.AddMvc(options => options.EnableEndpointRouting = false);
+builder.Services.AddMvc();
 var app = builder.Build();
+
+app.UseCors(builder => builder
+     .AllowAnyOrigin()
+     .AllowAnyMethod()
+     .AllowAnyHeader());
+app.UseMvc();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
